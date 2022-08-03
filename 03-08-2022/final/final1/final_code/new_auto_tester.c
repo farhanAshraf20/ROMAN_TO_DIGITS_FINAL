@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 	
 	//printf("No of argument : %d \n",argc);
 	//printf("Argument No1 :%s \n",argv[0]);	
-	printf("Argument No2 :%s \n",argv[1]);
+	//printf("Argument No2 :%s \n",argv[1]);
 	
 	
 	
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 				
 		
 		fun_input = line;					//assigning input
-    		fun_i=0;
+    		//fun_i=0;
 		if (input_check() == 0)					//checking input whether it is correct or not
 		{
 			//printf("-------------------------------------------------------\n");
@@ -126,9 +126,9 @@ int function_check(char *fun_input)					// code locic function
 	//printf("\nfunction input : %s",fun_input);
 	
 	//printf("\nfunction input test for i : %d\n",fun_i);
-  	printf("\nfunction input test for string: %c\n",fun_input[fun_i]);
+  	//printf("\nfunction input test for string: %c\n",fun_input[fun_i]);
   	
-  	printf("\nfunction input size  test for string: %ld\n",strlen(fun_input));
+  	//printf("\nfunction input size  test for string: %ld\n",strlen(fun_input));
   	
   	
   	
