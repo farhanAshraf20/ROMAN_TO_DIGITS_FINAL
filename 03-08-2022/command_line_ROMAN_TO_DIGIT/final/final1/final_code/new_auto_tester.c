@@ -15,6 +15,7 @@ char fix_letter[] = "IVXLCDM";
 char *fun_input;
 
 int fun_i;
+int count_index=0;
 int max;							
 int sum;
 int count_I = 0, count_X = 0, count_C = 0, count_V = 0, count_L = 0, count_D = 0;
@@ -22,6 +23,7 @@ int count_I = 0, count_X = 0, count_C = 0, count_V = 0, count_L = 0, count_D = 0
 int input_check(void);
 int function_check(char *fun_input);
 int file_write(void);
+int file_write_invalid_input(void);
 
 
 int main(int argc, char* argv[])
@@ -48,6 +50,7 @@ int main(int argc, char* argv[])
 		fun_i=0;
 		max = 1000;							
 		sum = 0;
+		count_index++;
 		count_I = 0, count_X = 0, count_C = 0, count_V = 0, count_L = 0, count_D = 0;
 		
 				
@@ -244,6 +247,7 @@ int function_check(char *fun_input)					// code locic function
 		}
 		else
 		{
+			file_write_invalid_input();
 			printf("Invalid input...\n");
 		}
 	}
@@ -264,3 +268,22 @@ int file_write(void)								//writing output file
 
 return 0;
 }
+
+int file_write_invalid_input(void)						//writing output file
+{
+	//FILE *invalid_out=fopen("output.txt","w");				//overrite the output in .txt file
+	FILE *invalid_out=fopen("invalid_output.txt","a+");			//append output to the .txt file
+	//fputs(fun_input,out);
+	fprintf(invalid_out,"\n-----------------------------------------\n");
+	fprintf(invalid_out,"Input   : %sOutput  : Invalid Input\nIndex no : %d\n",fun_input,count_index);
+	fprintf(invalid_out,"-----------------------------------------\n");
+	fclose(invalid_out);							//closing .txt file
+
+return 0;
+}
+
+
+
+
+
+
