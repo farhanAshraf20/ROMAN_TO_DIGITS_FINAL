@@ -17,19 +17,21 @@ char *fun_input;
 int fun_i;
 int count_index=0;
 int max;							
-int sum;
+int decimal_output;
 int count_I = 0, count_X = 0, count_C = 0, count_V = 0, count_L = 0, count_D = 0;
 
 int input_check(void);
-int function_check(char *fun_input);
+int remove_file(void);
+int converter_logic(char *fun_input);
 int file_write(void);
 int file_write_invalid_input(void);
 
 
 int main(int argc, char* argv[])
 {
-	char line[1000];
-		
+	remove_file();
+	
+	char line[9];	
 	FILE *fptr;
 	fptr = fopen(argv[1], "r");					//. txt file opening 
 	
@@ -41,26 +43,24 @@ int main(int argc, char* argv[])
 	//printf("No of argument : %d \n",argc);
 	//printf("Argument No1 :%s \n",argv[0]);	
 	//printf("Argument No2 :%s \n",argv[1]);
-	
-	
-	
+		
 	while(fgets(line,sizeof(line), fptr) != NULL)			//reading input line by line from .txt file
 	{
 		
 		fun_i=0;
 		max = 1000;							
-		sum = 0;
+		decimal_output = 0;
 		count_index++;
 		count_I = 0, count_X = 0, count_C = 0, count_V = 0, count_L = 0, count_D = 0;
 		
-				
 		
 		fun_input = line;					//assigning input
-    		//fun_i=0;
+    		
+    		
 		if (input_check() == 0)					//checking input whether it is correct or not
 		{
 			//printf("-------------------------------------------------------\n");
-			function_check(fun_input);			//conversion function call
+			converter_logic(fun_input);			//conversion function call
 		}
 		else
 		{
@@ -75,10 +75,26 @@ int main(int argc, char* argv[])
 return 0;
 }
 
+int remove_file(void)
+{
+	if (remove("output.txt") || remove("invalid_output.txt") == 0) 
+	{
+		printf("The file is deleted successfully.\n");
+	} 
+	else 
+	{
+		printf("The file is not deleted.\n");
+	}
+
+return 0;
+}
+
+
+
 
 int input_check(void)							//check input function
 {	
-
+	
 	char *input;
 	int size = 0;
 	int flag = 1;
@@ -124,7 +140,7 @@ int input_check(void)							//check input function
 }
 
 
-int function_check(char *fun_input)					// code locic function
+int converter_logic(char *fun_input)					// code locic function
 {
 	//printf("\nfunction input : %s",fun_input);
 	
@@ -142,24 +158,24 @@ int function_check(char *fun_input)					// code locic function
 			count_I++;		
 			if(fun_input[fun_i+1]=='V')
 			{
-				sum += 4;
+				decimal_output += 4;
 				fun_i++;
 				break;
 			}
 		
 			if(fun_input[fun_i+1]=='X')
 			{
-				sum += 9;
+				decimal_output += 9;
 				fun_i++;
 				break;
 			}
-			sum += 1;
+			decimal_output += 1;
 			break;
 		}
 		case 'V':
 		{
 			count_V++;
-			sum += 5;
+			decimal_output += 5;
 			break;
 		}
 		case 'X':
@@ -167,24 +183,24 @@ int function_check(char *fun_input)					// code locic function
 			count_X++;
 			if(fun_input[fun_i+1]=='L')
 			{
-				sum += 40;
+				decimal_output += 40;
 				fun_i++;
 				break;
 			}
 			if(fun_input[fun_i+1]=='C')
 			{
-				sum += 90;
+				decimal_output += 90;
 				fun_i++;
 				break;
 			}
-			sum += 10;
+			decimal_output += 10;
 			break;
 		}
 
 		case 'L':
 		{
 			count_L++;
-			sum += 50;
+			decimal_output += 50;
 			break;
 		}
 		case 'C':
@@ -192,28 +208,28 @@ int function_check(char *fun_input)					// code locic function
 			count_C++;
 			if(fun_input[fun_i+1]=='D')
 			{
-				sum += 400;
+				decimal_output += 400;
 				fun_i++;
 				break;
 			}
 			if(fun_input[fun_i+1]=='M')
 			{
-				sum += 900;
+				decimal_output += 900;
 				fun_i++;
 				break;
 			}
-			sum += 100;
+			decimal_output += 100;
 			break;
 		}
 		case 'D':
 		{
 			count_D++;
-			sum += 500;
+			decimal_output += 500;
 			break;
 		}
 		case 'M':
 		{
-			sum += 1000;
+			decimal_output += 1000;
 			break;
 		}
 		default:
@@ -230,18 +246,18 @@ int function_check(char *fun_input)					// code locic function
 	
 	/*if (fun_input[fun_i + 1] !='\0')
 	{
-		function_check(fun_input);
+		converter_logic(fun_input);
 	}*/
 	
 	if(strlen(fun_input) > (fun_i+1))
 	{
-		function_check(fun_input);
+		converter_logic(fun_input);
 	}
 	else
 	{
 		if ((count_I <= max_no) && (count_C <= max_no) && (count_X <= max_no) && (count_V <= min_no) && (count_L <= min_no) && (count_D <= min_no))
 		{
-			printf("Interger is : %d\n", sum);
+			printf("Interger is : %d\n", decimal_output);
 			printf("------------------------------------\n");
 			file_write();
 		}
@@ -262,7 +278,7 @@ int file_write(void)								//writing output file
 	FILE *out=fopen("output.txt","a+");					//append output to the .txt file
 	//fputs(fun_input,out);
 	fprintf(out,"\n-----------------------------------------\n");
-	fprintf(out,"Input  : %sOutput : %d\n",fun_input,sum);
+	fprintf(out,"Input  : %sOutput : %d\n",fun_input,decimal_output);
 	fprintf(out,"-----------------------------------------\n");
 	fclose(out);								//closing .txt file
 
@@ -271,7 +287,7 @@ return 0;
 
 int file_write_invalid_input(void)						//writing output file
 {
-	//FILE *invalid_out=fopen("output.txt","w");				//overrite the output in .txt file
+					
 	FILE *invalid_out=fopen("invalid_output.txt","a+");			//append output to the .txt file
 	//fputs(fun_input,out);
 	fprintf(invalid_out,"\n-----------------------------------------\n");
